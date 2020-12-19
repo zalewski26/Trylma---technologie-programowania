@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TrylmaPanel extends JPanel {
+    private int id;
     private final Circle[][] circles = new Circle[17][13];
     private Circle currentCircle;
     private Color currentColor;
@@ -30,6 +31,16 @@ public class TrylmaPanel extends JPanel {
         repaint();
     }
 
+    public void setId(int id){
+        this.id = id;
+        for (Circle[] c: circles){
+            for (Circle c1: c){
+                if (c1.getId() == id)
+                    c1.setBright();
+            }
+        }
+    }
+
     public void mark(int row, int column, boolean tick){
         currentCircle = circles[row][column];
         if (currentCircle.getColor().equals(Color.CYAN)){
@@ -51,13 +62,17 @@ public class TrylmaPanel extends JPanel {
         for (Circle[] c: circles){
             for (Circle c1: c){
                 if (c1.getColor() != null && c1.getColor().equals(Color.MAGENTA))
-                    c1.setColor(Color.LIGHT_GRAY);
+                    c1.setColor(Color.LIGHT_GRAY.darker());
+                else if (c1.getColor() != null && c1.getColor().equals(Color.CYAN)){
+                    c1.setColor(id);
+                    c1.setBright();
+                }
             }
         }
     }
 
     public void makeMove(int row, int column){
-        currentCircle.setColor(Color.LIGHT_GRAY);
+        currentCircle.setColor(Color.LIGHT_GRAY.darker());
         circles[row][column].setColor(currentColor);
     }
 
@@ -70,8 +85,10 @@ public class TrylmaPanel extends JPanel {
         super.paintComponent(g);
         for (int row = 0; row < circles.length; row++){
             for (int column = 0; column < circles[row].length; column++){
-                if (board[row][column] != 8)
+                if (board[row][column] != 8){
                     circles[row][column].draw(g);
+                }
+
             }
         }
     }

@@ -14,7 +14,7 @@ public class CircleTest {
         assertEquals(circle.getId(), 1);
         assertTrue(circle.contains(1, 1));
         assertFalse(circle.contains(3, 3));
-        assertEquals(circle.getColor(), Color.GREEN);
+        assertEquals(circle.getColor(), Color.GREEN.darker());
         circle.setColor(Color.MAGENTA);
         assertEquals(circle.getColor(), Color.MAGENTA);
     }

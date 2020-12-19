@@ -14,34 +14,35 @@ public class Circle {
         this.y = y;
         this.diameter = diameter;
         this.id = id;
-
-        switch (id){
-            case 0:
-                this.color = Color.LIGHT_GRAY;
-                break;
-            case 1:
-                this.color = Color.GREEN;
-                break;
-            case 2:
-                this.color = Color.YELLOW;
-                break;
-            case 3:
-                this.color = Color.BLACK;
-                break;
-            case 4:
-                this.color = Color.WHITE;
-                break;
-            case 5:
-                this.color = Color.BLUE;
-                break;
-            case 6:
-                this.color = Color.RED;
-                break;
-        }
+        this.color = getColor(id);
     }
 
     public void setColor(Color color){
         this.color = color;
+    }
+
+    public void setColor(int id){
+        this.color = getColor(id);
+    }
+
+    public Color getColor(int id){
+        switch (id){
+            case 0:
+                return Color.LIGHT_GRAY.darker();
+            case 1:
+                return Color.GREEN.darker();
+            case 2:
+                return Color.YELLOW.darker();
+            case 3:
+                return Color.BLACK.darker();
+            case 4:
+                return Color.WHITE.darker();
+            case 5:
+                return Color.BLUE.darker();
+            case 6:
+                return Color.RED.darker();
+        }
+        return null;
     }
 
     public Color getColor(){
@@ -55,6 +56,10 @@ public class Circle {
     public void draw(Graphics g){
         g.setColor(color);
         g.fillOval(x, y, diameter, diameter);
+    }
+
+    public void setBright(){
+        color = color.brighter().brighter();
     }
 
     public boolean contains(int pointX, int pointY)

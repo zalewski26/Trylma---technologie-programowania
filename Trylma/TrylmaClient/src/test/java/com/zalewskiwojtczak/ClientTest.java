@@ -27,10 +27,10 @@ public class ClientTest {
     @Test
     public void testClient() throws Exception{
         TrylmaClient client = new TrylmaClient(mockedSocket);
-        assertEquals(client.getPanel().getCircles()[13][4].getColor(), Color.GREEN);
-        assertEquals(client.getPanel().getCircles()[12][4].getColor(), Color.LIGHT_GRAY);
+        assertEquals(client.getPanel().getCircles()[13][4].getColor(), Color.GREEN.darker());
+        assertEquals(client.getPanel().getCircles()[12][4].getColor(), Color.LIGHT_GRAY.darker());
         client.play();
-        assertEquals(client.getPanel().getCircles()[13][4].getColor(), Color.LIGHT_GRAY);
-        assertEquals(client.getPanel().getCircles()[12][4].getColor(), Color.GREEN);
+        assertEquals(client.getPanel().getCircles()[13][4].getColor(), Color.LIGHT_GRAY.darker());
+        assertEquals(client.getPanel().getCircles()[12][4].getColor(), Color.GREEN.darker().brighter().brighter());
     }
 }
