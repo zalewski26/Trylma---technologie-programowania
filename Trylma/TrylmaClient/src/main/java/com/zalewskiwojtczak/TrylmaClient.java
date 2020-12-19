@@ -101,6 +101,14 @@ public class TrylmaClient {
                 else if (response.startsWith("MESSAGE")) {
                     label.setText(response.substring(8));
                 }
+                else if (response.startsWith("WIN")){
+                    JOptionPane.showMessageDialog(frame, "You won!");
+                    break;
+                }
+                else if (response.startsWith("DEFEAT")){
+                    JOptionPane.showMessageDialog(frame, "You lost!");
+                    break;
+                }
                 else if (response.startsWith("OTHER_PLAYER_LEFT")) {
                     JOptionPane.showMessageDialog(frame, "Other player left");
                     break;

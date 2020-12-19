@@ -10,6 +10,7 @@ public class TrylmaGame extends GameBase {
 
     class playerHandler implements Runnable {
         protected final int[] prev = new int[2];
+        private final int[] prev_marked = new int[2];
         protected final int id;
         protected playerHandler opponent;
         private final Socket socket;
@@ -61,6 +62,13 @@ public class TrylmaGame extends GameBase {
                 if (command.startsWith("QUIT")){
                     return;
                 }
+                else if (command.startsWith("SKIP")){
+                    if (marked) {
+                        output.println("UNMARK");
+                        output.println("REPAINT");
+                    }
+                    current = current.opponent;
+                }
                 else if (command.startsWith("CLICK")){
                     String str = command.substring(6);
                     String[] arr = str.split("\\s+");
@@ -77,6 +85,8 @@ public class TrylmaGame extends GameBase {
                             output.println("REPAINT");
                             opponent.output.println("OTHER_MARK " + row + " " + column);
                             opponent.output.println("REPAINT");
+                            prev_marked[0] = row;
+                            prev_marked[1] = column;
                         }
                         else{
                             output.println("VALID_MOVE");
@@ -91,9 +101,15 @@ public class TrylmaGame extends GameBase {
                                         t[0] = 0;
                                         t[1] = 0;
                                     }
+                                    else if (t[0] == prev_marked[0] && t[1] == prev_marked[1]){
+                                        t[0] = 0;
+                                        t[1] = 0;
+                                    }
                                     if (t[0] != 0 && t[1] != 0)
                                         tempCounter++;
                                 }
+                                prev_marked[0] = prev[0];
+                                prev_marked[1] = prev[1];
                                 if (tempCounter == 0){
                                     current = current.opponent;
                                 }
@@ -107,6 +123,12 @@ public class TrylmaGame extends GameBase {
                                     opponent.output.println("OTHER_MARK " + prev[0] + " " + prev[1]);
                                     opponent.output.println("REPAINT");
                                     var cmd = input.nextLine();
+                                    if (cmd.startsWith("SKIP")){
+                                        output.println("UNMARK");
+                                        output.println("REPAINT");
+                                        current = current.opponent;
+                                        break;
+                                    }
                                     String str2 = cmd.substring(6);
                                     String[] arr2 = str2.split("\\s+");
                                     int row2 = Integer.parseInt(arr2[0]);
@@ -127,6 +149,11 @@ public class TrylmaGame extends GameBase {
                                     opponent.output.println("REPAINT");
                                 }
                             }
+                        }
+                        if (checkWin(id)){
+                            output.println("WIN");
+                            opponent.output.println("DEFEAT");
+                            return;
                         }
                         marked = !marked;
                     } catch (IllegalStateException ex){

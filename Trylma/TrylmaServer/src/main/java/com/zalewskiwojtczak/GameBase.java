@@ -112,4 +112,25 @@ public class GameBase {
         }
         return result;
     }
+
+    public boolean checkWin(int id){
+        switch (id){
+            case 1:
+                if (board[0][6] == 1 && board[1][5] == 1 && board[1][6] == 1
+                        && board[2][5] == 1 && board[2][6] == 1 && board[2][7] == 1
+                        && board[3][4] == 1 && board[3][5] == 1 && board[3][6] == 1 && board[3][7] == 1)
+                    return true;
+            case 6:
+                if (board[16][6] == 6 && board[15][5] == 6 && board[15][6] == 6
+                        && board[14][5] == 6 && board[14][6] == 6 && board[14][7] == 6
+                        && board[13][4] == 6 && board[13][5] == 6 && board[13][6] == 6 && board[13][7] == 6)
+                    return true;
+
+            /*case 1:
+                if (board[12][4] == 1 && board[12][5] == 1)
+                    return true;
+             */
+        }
+        return false;
+    }
 }
