@@ -41,6 +41,30 @@ public class TrylmaPanel extends JPanel {
         }
     }
 
+    public void setPlayers(int number){
+        if (number == 6)
+            return;
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                switch (number){
+                    case 2:
+                        if (board[row][column] == 2 || board[row][column] == 3 || board[row][column] == 4
+                                || board[row][column] == 5)
+                            circles[row][column].setColor(Color.LIGHT_GRAY.darker());
+                        break;
+                    case 3:
+                        if (board[row][column] == 1 || board[row][column] == 4 || board[row][column] == 5)
+                            circles[row][column].setColor(Color.LIGHT_GRAY.darker());
+                        break;
+                    case 4:
+                        if (board[row][column] == 1 || board[row][column] == 6)
+                            circles[row][column].setColor(Color.LIGHT_GRAY.darker());
+                        break;
+                }
+            }
+        }
+    }
+
     public void mark(int row, int column, boolean tick){
         currentCircle = circles[row][column];
         currentColor = currentCircle.getColor();

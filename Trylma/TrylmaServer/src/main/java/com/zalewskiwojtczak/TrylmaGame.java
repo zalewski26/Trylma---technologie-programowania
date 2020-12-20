@@ -3,15 +3,44 @@ package com.zalewskiwojtczak;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
 import static java.lang.Math.abs;
 
 public class TrylmaGame extends GameBase {
 
+    public TrylmaGame(int NUMOF){
+        this.NUMOF = NUMOF;
+        players = new TrylmaGame.playerHandler[NUMOF];
+        Random rand = new Random();
+        first = rand.nextInt(NUMOF);
+
+        for (int row = 0; row < board.length; row++) {
+            for (int column = 0; column < board[row].length; column++) {
+                switch (NUMOF){
+                    case 2:
+                        if (board[row][column] == 2 || board[row][column] == 3 || board[row][column] == 4
+                                || board[row][column] == 5)
+                            board[row][column] = 0;
+                        break;
+                    case 3:
+                        if (board[row][column] == 1 || board[row][column] == 4 || board[row][column] == 5)
+                            board[row][column] = 0;
+                        break;
+                    case 4:
+                        if (board[row][column] == 1 || board[row][column] == 6)
+                            board[row][column] = 0;
+                        break;
+                }
+            }
+        }
+    }
+
     class playerHandler implements Runnable {
         protected final int[] prev = new int[2];
         private final int[] prev_marked = new int[2];
         protected final int id;
+        protected final int number;
         private final Socket socket;
         private Scanner input;
         private PrintWriter output;
@@ -21,7 +50,9 @@ public class TrylmaGame extends GameBase {
         public playerHandler(Socket socket, int id){
             this.socket = socket;
             this.id = id;
-            players[id-1] = this;
+            number = playerCounter;
+            playerCounter++;
+            players[number] = this;
         }
 
         @Override
@@ -46,13 +77,15 @@ public class TrylmaGame extends GameBase {
             input = new Scanner(socket.getInputStream());
             output = new PrintWriter(socket.getOutputStream(), true);
             output.println(id);
+            output.println(number);
+            output.println(NUMOF);
 
-            if (id == first){
+            if (number == first){
                 current = this;
                 output.println("MESSAGE Waiting for opponent!");
             }
-            else if (id == NUMOF) {
-                players[first - 1].output.println("MESSAGE Your move!");
+            else if (number == NUMOF - 1) {
+                players[first].output.println("MESSAGE Your move!");
             }
         }
 
@@ -67,7 +100,7 @@ public class TrylmaGame extends GameBase {
                         output.println("UNMARK");
                         output.println("REPAINT");
                     }
-                    current = players[id % NUMOF];
+                    current = players[(number + 1) % NUMOF];
                 }
                 else if (command.startsWith("CLICK")){
                     String str = command.substring(6);
@@ -119,7 +152,7 @@ public class TrylmaGame extends GameBase {
                                 prev_marked[0] = prev[0];
                                 prev_marked[1] = prev[1];
                                 if (tempCounter == 0){
-                                    current = players[id % NUMOF];
+                                    current = players[(number + 1) % NUMOF];
                                     jump = false;
                                 }
                                 else{
@@ -139,7 +172,7 @@ public class TrylmaGame extends GameBase {
                                     if (cmd.startsWith("SKIP")){
                                         output.println("UNMARK");
                                         output.println("REPAINT");
-                                        current = players[id % NUMOF];
+                                        current = players[(number + 1) % NUMOF];
                                         jump = false;
                                         break;
                                     }
@@ -154,7 +187,7 @@ public class TrylmaGame extends GameBase {
                                     catch (IllegalStateException ex) {
                                         output.println("UNMARK " + prev[0] + " " + prev[1]);
                                         output.println("REPAINT");
-                                        current = players[id % NUMOF];
+                                        current = players[(number + 1) % NUMOF];
                                         jump= false;
                                         break;
                                     }

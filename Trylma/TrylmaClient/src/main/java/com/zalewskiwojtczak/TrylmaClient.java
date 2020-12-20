@@ -60,7 +60,12 @@ public class TrylmaClient {
             var response = input.nextLine();
             var id = Integer.parseInt(response);
             panel.setId(id);
-            frame.setTitle("Game: Player " + id);
+            response = input.nextLine();
+            var number = Integer.parseInt(response) + 1;
+            response = input.nextLine();
+            frame.setTitle("Game: Player " + number);
+            var numOfPlayers = Integer.parseInt(response);
+            panel.setPlayers(numOfPlayers);
             panel.repaint();
 
             while (input.hasNextLine()){

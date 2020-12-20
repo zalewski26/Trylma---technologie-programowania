@@ -13,10 +13,12 @@ public class GameBase {
     };
     protected TrylmaGame.playerHandler current;
     protected int[][] available;
-    protected TrylmaGame.playerHandler[] players = new TrylmaGame.playerHandler[NUMOF];
-    protected static final int NUMOF = 3;
-    private final Random rand = new Random();
-    protected final int first = rand.nextInt(3) + 1;
+
+    protected TrylmaGame.playerHandler[] players;
+    protected int NUMOF;
+    protected int playerCounter = 0;
+    protected int first;
+
 
     public synchronized void action(int row, int column, TrylmaGame.playerHandler player){
         if (player != current){
@@ -51,7 +53,7 @@ public class GameBase {
                         current.jump = true;
                     }
                     if (!current.jump)
-                        current = players[current.id % NUMOF];
+                        current = players[(current.number + 1) % NUMOF];
                         //current = current.opponent;
                     return;
                 }
