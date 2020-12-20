@@ -1,5 +1,7 @@
 package com.zalewskiwojtczak;
 
+import java.util.Random;
+
 import static java.lang.Math.abs;
 
 public class GameBase {
@@ -11,13 +13,18 @@ public class GameBase {
     };
     protected TrylmaGame.playerHandler current;
     protected int[][] available;
+    protected TrylmaGame.playerHandler[] players = new TrylmaGame.playerHandler[NUMOF];
+    protected static final int NUMOF = 3;
+    private final Random rand = new Random();
+    protected final int first = rand.nextInt(3) + 1;
 
     public synchronized void action(int row, int column, TrylmaGame.playerHandler player){
         if (player != current){
             throw new IllegalStateException("Not your turn!");
         }
-        else if (player.opponent == null){
-            throw new IllegalStateException("You have no opponent yet!");
+        for (TrylmaGame.playerHandler opponent: players){
+            if (opponent == null)
+                throw new IllegalStateException("You have no opponent yet!");
         }
 
         if (!current.marked){
@@ -41,9 +48,11 @@ public class GameBase {
                     if (diffrow == 2 || diffcol == 2){
                         current.prev[0] = row;
                         current.prev[1] = column;
-                        current = current.opponent;
+                        current.jump = true;
                     }
-                    current = current.opponent;
+                    if (!current.jump)
+                        current = players[current.id % NUMOF];
+                        //current = current.opponent;
                     return;
                 }
             }
@@ -101,7 +110,7 @@ public class GameBase {
             }
         }
         for (int[] a: result){
-            if (a[0] < 0 || a[0] > 16 || a[1] < 0 || a[1] > 13){
+            if (a[0] < 0 || a[0] > 16 || a[1] < 0 || a[1] > 12){
                 a[0] = 0;
                 a[1] = 0;
             }
@@ -115,7 +124,7 @@ public class GameBase {
 
     public boolean checkWin(int id){
         switch (id){
-            case 1:
+            /*case 1:
                 if (board[0][6] == 1 && board[1][5] == 1 && board[1][6] == 1
                         && board[2][5] == 1 && board[2][6] == 1 && board[2][7] == 1
                         && board[3][4] == 1 && board[3][5] == 1 && board[3][6] == 1 && board[3][7] == 1)
@@ -125,11 +134,10 @@ public class GameBase {
                         && board[14][5] == 6 && board[14][6] == 6 && board[14][7] == 6
                         && board[13][4] == 6 && board[13][5] == 6 && board[13][6] == 6 && board[13][7] == 6)
                     return true;
-
-            /*case 1:
+            */
+            case 1:
                 if (board[12][4] == 1 && board[12][5] == 1)
                     return true;
-             */
         }
         return false;
     }

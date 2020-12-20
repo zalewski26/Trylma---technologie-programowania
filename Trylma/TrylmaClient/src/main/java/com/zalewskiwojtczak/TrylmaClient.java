@@ -78,8 +78,8 @@ public class TrylmaClient {
                     panel.unmark();
                 }
                 else if (response.startsWith("VALID_MOVE")) {
-                    panel.unmark();
                     panel.makeMove(currentCircle[0], currentCircle[1]);
+                    panel.unmark();
                     label.setText("Good move, now wait!");
                 }
                 else if (response.startsWith("OTHER_MOVE")){

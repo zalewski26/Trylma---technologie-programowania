@@ -43,14 +43,9 @@ public class TrylmaPanel extends JPanel {
 
     public void mark(int row, int column, boolean tick){
         currentCircle = circles[row][column];
-        if (currentCircle.getColor().equals(Color.CYAN)){
-            currentCircle.setColor(currentColor);
-        }
-        else{
-            currentColor = currentCircle.getColor();
-            if (tick){
-                currentCircle.setColor(Color.CYAN);
-            }
+        currentColor = currentCircle.getColor();
+        if (tick){
+            currentCircle.setColor(Color.CYAN);
         }
     }
 
