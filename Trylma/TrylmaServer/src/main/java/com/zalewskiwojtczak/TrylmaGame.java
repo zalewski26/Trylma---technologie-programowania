@@ -42,6 +42,10 @@ public class TrylmaGame extends GameBase {
         }
     }
 
+    public void setFirst(int first){
+        this.first = first;
+    }
+
     class playerHandler implements Runnable {
         protected final int[] prev = new int[2];
         private final int[] prev_marked = new int[2];

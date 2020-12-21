@@ -1,4 +1,4 @@
-/*package com.zalewskiwojtczak;
+package com.zalewskiwojtczak;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,8 @@ public class PlayerHandlerTest {
 
     @Test
     public void testHandler() throws IOException{
-        TrylmaGame game = new TrylmaGame();
+        TrylmaGame game = new TrylmaGame(2);
+        game.setFirst(0);
         TrylmaGame.playerHandler player = game.new playerHandler(mockedSocket, 1);
         TrylmaGame.playerHandler player2 = game.new playerHandler(mockedSocket, 6);
         assertEquals(game.board[13][4], 1);
@@ -49,5 +50,3 @@ public class PlayerHandlerTest {
 
     }
 }
-
-*/

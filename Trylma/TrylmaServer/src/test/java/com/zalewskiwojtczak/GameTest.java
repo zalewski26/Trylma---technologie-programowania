@@ -1,4 +1,4 @@
-/*package com.zalewskiwojtczak;
+package com.zalewskiwojtczak;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import static junit.framework.TestCase.assertEquals;
 public class GameTest {
     @Test
     public void availableTest(){
-        TrylmaGame game = new TrylmaGame();
+        TrylmaGame game = new TrylmaGame(2);
         int row = 13;
         int column = 4;
         int[][] neighbours = game.getAvailable(row, column);
@@ -37,4 +37,4 @@ public class GameTest {
         assertEquals(counter2, expectedCounter2);
         assertEquals(counter3, expectedCounter3);
     }
-}*/
+}

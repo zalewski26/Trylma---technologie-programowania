@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
-/*import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +17,7 @@ public class ClientTest {
     @Before
     public void setUpSocket() throws IOException{
         mockedSocket = mock(Socket.class);
-        InputStream in = new ByteArrayInputStream("1\nSIM_CLICK 13 4\nVALID_MARK \nSIM_CLICK 12 4\nVALID_MOVE".getBytes());
+        InputStream in = new ByteArrayInputStream("1\n0\n2\nSIM_CLICK 13 4\nVALID_MARK \nSIM_CLICK 12 4\nVALID_MOVE".getBytes());
         out = new ByteArrayOutputStream();
 
         when(mockedSocket.getInputStream()).thenReturn(in);
@@ -34,4 +34,3 @@ public class ClientTest {
         assertEquals(client.getPanel().getCircles()[12][4].getColor(), Color.GREEN.darker().brighter().brighter());
     }
 }
-*/
