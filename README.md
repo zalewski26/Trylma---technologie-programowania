@@ -9,7 +9,7 @@ Pokrycie testami dla klas - 85%.
 Pokrycie testami dla metod - 80%.
 Wykorzystano mockowanie (np Socketów) za pomocą Mockito.
 3) Pełna implementacja rozgrywki dla 2,3,4 lub 6 graczy, z możliwością spasowania ruchu oraz wielokrotnych przeskoków. 
-4) Poprawa błędów, implementacja menu wyboru liczby graczy, komentarze wraz z dokumentacją javadoc.
+4) Poprawa błędów, implementacja menu wyboru liczby graczy, zastosowanie wzorca projektowego Factory do tworzenia pól, komentarze wraz z dokumentacją javadoc.
 Końcowe pokrycie testami:
-klasy - 90%
-metody - 78%
+klasy - 91%
+metody - 83%
