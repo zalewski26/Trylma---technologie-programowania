@@ -30,7 +30,7 @@ public class TrylmaClient {
     /**  Zmienna typu PrintWriter zajmująca się wyświetlaniem informacji */
     private final PrintWriter output;
     /** Konstruktor klasy TrylmaClient
-     * @param Socket socket gniazdo, do którego podłącza się klient w celu rozegrania rozgrywki
+     * @param socket socket gniazdo, do którego podłącza się klient w celu rozegrania rozgrywki
      */
     public TrylmaClient(Socket socket) throws Exception {
         //inicjalizacja zmiennych

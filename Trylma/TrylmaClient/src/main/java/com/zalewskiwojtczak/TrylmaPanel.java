@@ -7,9 +7,9 @@ public class TrylmaPanel extends JPanel {
     /** Zmienna przechowująca identyfikator gracza, do którego należy dana plansza */
     private int id;
     /** Tablica dwuwymiarowa przechowująca ułożenie planszy */
-    private final Circle[][] circles = new Circle[17][13];
+    private final Shape[][] circles = new Shape[17][13];
     /** Zmienna przechowująca pionek, na którym w danej chwili są wykonywane operacje */
-    private Circle currentCircle;
+    private Shape currentCircle;
     /** Zmienna przechowująća kolor pionka, na którym w danej chwilli są wykonywane operacje */
     private Color currentColor;
     /** tablica dwuwymiarowa intów, przedstawiająca stan początkowy planszy */
@@ -24,6 +24,7 @@ public class TrylmaPanel extends JPanel {
         //Początkowe ustawienie parametrów okna
         setBackground(Color.DARK_GRAY);
         setLayout(new BorderLayout());
+        ShapeFactory factory = new ConcreteShapeFactory();
 
         int diameter = 50;
         /*pętle wypełniająca tablice circles nowymi pionkami na podstawie informacji z zmiennej board */
@@ -32,9 +33,9 @@ public class TrylmaPanel extends JPanel {
                 //w zależności od aktualnego wiersza, dla wierszy nieparzystych dokonujemy lekkiego wcięcia
                 // w celu lepszego graficznego przedstawienia planszy
                 if (row % 2 == 0)
-                    circles[row][column] = new Circle(column* diameter, row* diameter, diameter, board[row][column]);
+                    circles[row][column] = factory.getShape("Circle",column* diameter, row* diameter, diameter, board[row][column]);
                 else
-                    circles[row][column] = new Circle(column* diameter + diameter /2, row* diameter, diameter, board[row][column]);
+                    circles[row][column] = factory.getShape("Circle", column* diameter + diameter /2, row* diameter, diameter, board[row][column]);
             }
         }
         repaint();
@@ -43,8 +44,8 @@ public class TrylmaPanel extends JPanel {
      /dodano ze względów estetycznych, dla dodatkowego odróżnienia pionów gracza od przeciwnika */
     public void setId(int id){
         this.id = id;
-        for (Circle[] c: circles){
-            for (Circle c1: c){
+        for (Shape[] c: circles){
+            for (Shape c1: c){
                 if (c1.getId() == id)
                     c1.setBright();
             }
@@ -101,8 +102,8 @@ public class TrylmaPanel extends JPanel {
     /** Jeśli gracz zmienił decyzje i kliknął inny pionek ta funkcja
      usuwa wszystkie wcześniej stworzone oznaczenia */
     public void unmark(){
-        for (Circle[] c: circles){
-            for (Circle c1: c){
+        for (Shape[] c: circles){
+            for (Shape c1: c){
                 if (c1.getColor() != null && c1.getColor().equals(Color.MAGENTA))
                     c1.setColor(Color.LIGHT_GRAY.darker());
                 else if (c1.getColor() != null && c1.getColor().equals(Color.CYAN)){
@@ -118,14 +119,14 @@ public class TrylmaPanel extends JPanel {
         circles[row][column].setColor(currentColor);
     }
     /** Funkcja zwracająca tablicę pionków - rozłożenie ich na planszy */
-    public Circle[][] getCircles(){
+    public Shape[][] getCircles(){
         return circles;
     }
     /** Funkcja rysująca planszę
      * @param g obiekt typu Graphics, aktualny pionek do narysowania
      */
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int row = 0; row < circles.length; row++){
             for (int column = 0; column < circles[row].length; column++){
