@@ -91,7 +91,6 @@ public class TrylmaClient {
                     String str = response.substring(11);
                     String[] arr = str.split("\\s+");
                     panel.makeMove(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
-                    label.setText("Opponent moved, your turn!");
                 }
                 else if (response.startsWith("POSSIBILITIES")){
                     String str = response.substring(14);
@@ -108,11 +107,12 @@ public class TrylmaClient {
                 }
                 else if (response.startsWith("WIN")){
                     JOptionPane.showMessageDialog(frame, "You won!");
-                    break;
                 }
                 else if (response.startsWith("DEFEAT")){
-                    JOptionPane.showMessageDialog(frame, "You lost!");
-                    break;
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog(frame, "Do you want to continue the game?", "You lost!", dialogButton);
+                    if(dialogResult != 0)
+                        break;
                 }
                 else if (response.startsWith("OTHER_PLAYER_LEFT")) {
                     JOptionPane.showMessageDialog(frame, "Other player left");

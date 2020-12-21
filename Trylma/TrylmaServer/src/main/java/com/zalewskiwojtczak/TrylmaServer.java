@@ -22,23 +22,23 @@ public class TrylmaServer {
                         pool.execute(game.new playerHandler(listener.accept(), 6));
                         break;
                     case 3:
-                        pool.execute(game.new playerHandler(listener.accept(), 3));
                         pool.execute(game.new playerHandler(listener.accept(), 2));
+                        pool.execute(game.new playerHandler(listener.accept(), 3));
                         pool.execute(game.new playerHandler(listener.accept(), 6));
                         break;
                     case 4:
                         pool.execute(game.new playerHandler(listener.accept(), 2));
-                        pool.execute(game.new playerHandler(listener.accept(), 4));
-                        pool.execute(game.new playerHandler(listener.accept(), 5));
                         pool.execute(game.new playerHandler(listener.accept(), 3));
+                        pool.execute(game.new playerHandler(listener.accept(), 5));
+                        pool.execute(game.new playerHandler(listener.accept(), 4));
                         break;
                     case 6:
                         pool.execute(game.new playerHandler(listener.accept(), 1));
-                        pool.execute(game.new playerHandler(listener.accept(), 2));
-                        pool.execute(game.new playerHandler(listener.accept(), 4));
-                        pool.execute(game.new playerHandler(listener.accept(), 6));
-                        pool.execute(game.new playerHandler(listener.accept(), 5));
                         pool.execute(game.new playerHandler(listener.accept(), 3));
+                        pool.execute(game.new playerHandler(listener.accept(), 5));
+                        pool.execute(game.new playerHandler(listener.accept(), 6));
+                        pool.execute(game.new playerHandler(listener.accept(), 4));
+                        pool.execute(game.new playerHandler(listener.accept(), 2));
                         break;
                 }
             }

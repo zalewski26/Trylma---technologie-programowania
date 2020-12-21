@@ -14,6 +14,12 @@ public class TrylmaGame extends GameBase {
         players = new TrylmaGame.playerHandler[NUMOF];
         Random rand = new Random();
         first = rand.nextInt(NUMOF);
+        startingBoard = new int[board.length][board[0].length];
+        for (int row = 0; row < board.length; row++){
+            for (int column = 0; column < board[row].length; column++){
+                startingBoard[row][column] = board[row][column];
+            }
+        }
 
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[row].length; column++) {
@@ -46,6 +52,7 @@ public class TrylmaGame extends GameBase {
         private PrintWriter output;
         protected boolean marked = false;
         protected boolean jump = false;
+        protected boolean won = false;
 
         public playerHandler(Socket socket, int id){
             this.socket = socket;
@@ -84,9 +91,18 @@ public class TrylmaGame extends GameBase {
                 current = this;
                 output.println("MESSAGE Waiting for opponent!");
             }
-            else if (number == NUMOF - 1) {
+            if (number == NUMOF - 1) {
                 players[first].output.println("MESSAGE Your move!");
             }
+        }
+
+        protected playerHandler nextPlayer(){
+            playerHandler result = players[(number + 1) % NUMOF];
+            while (result.won){
+                result = players[(result.number + 1) % NUMOF];
+            }
+            result.output.println("MESSAGE Your turn!");
+            return result;
         }
 
         private void processCommands(){
@@ -95,12 +111,18 @@ public class TrylmaGame extends GameBase {
                 if (command.startsWith("QUIT")){
                     return;
                 }
+                else if (won){
+                    output.println("WIN");
+                }
                 else if (command.startsWith("SKIP")){
+                    if (!current.equals(this))
+                        continue;
+                    output.println("MESSAGE You folded!");
                     if (marked) {
                         output.println("UNMARK");
                         output.println("REPAINT");
                     }
-                    current = players[(number + 1) % NUMOF];
+                    current = nextPlayer();
                 }
                 else if (command.startsWith("CLICK")){
                     String str = command.substring(6);
@@ -112,7 +134,7 @@ public class TrylmaGame extends GameBase {
                         if (!marked){
                             output.println("VALID_MARK");
                             for (int[] a: available){
-                                if (a[0] != 0 && a[1] != 0)
+                                if (a[0] != 0 || a[1] != 0)
                                     output.println("POSSIBILITIES " + a[0] + " " + a[1]);
                             }
                             output.println("REPAINT");
@@ -146,19 +168,19 @@ public class TrylmaGame extends GameBase {
                                         t[0] = 0;
                                         t[1] = 0;
                                     }
-                                    if (t[0] != 0 && t[1] != 0)
+                                    if (t[0] != 0 || t[1] != 0)
                                         tempCounter++;
                                 }
                                 prev_marked[0] = prev[0];
                                 prev_marked[1] = prev[1];
                                 if (tempCounter == 0){
-                                    current = players[(number + 1) % NUMOF];
+                                    current = nextPlayer();
                                     jump = false;
                                 }
                                 else{
                                     output.println("VALID_MARK");
                                     for (int[] t: temp){
-                                        if (t[0] != 0 && t[1] != 0)
+                                        if (t[0] != 0 || t[1] != 0)
                                             output.println("POSSIBILITIES " + t[0] + " " + t[1]);
                                     }
                                     output.println("REPAINT");
@@ -172,7 +194,7 @@ public class TrylmaGame extends GameBase {
                                     if (cmd.startsWith("SKIP")){
                                         output.println("UNMARK");
                                         output.println("REPAINT");
-                                        current = players[(number + 1) % NUMOF];
+                                        current = nextPlayer();
                                         jump = false;
                                         break;
                                     }
@@ -187,7 +209,7 @@ public class TrylmaGame extends GameBase {
                                     catch (IllegalStateException ex) {
                                         output.println("UNMARK " + prev[0] + " " + prev[1]);
                                         output.println("REPAINT");
-                                        current = players[(number + 1) % NUMOF];
+                                        current = nextPlayer();
                                         jump= false;
                                         break;
                                     }
@@ -202,14 +224,14 @@ public class TrylmaGame extends GameBase {
                                 }
                             }
                         }
-                        if (checkWin(id)){
+                        if (!won && checkWin(id)){
                             output.println("WIN");
+                            won = true;
                             for (playerHandler opponent: players) {
-                                if (opponent.equals(this))
+                                if (opponent.equals(this) || opponent.won)
                                     continue;
                                 opponent.output.println("DEFEAT");
                             }
-                            return;
                         }
                         marked = !marked;
                     } catch (IllegalStateException ex){
