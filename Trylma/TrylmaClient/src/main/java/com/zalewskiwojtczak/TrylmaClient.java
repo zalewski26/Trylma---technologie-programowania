@@ -60,7 +60,12 @@ public class TrylmaClient {
             var response = input.nextLine();
             var id = Integer.parseInt(response);
             panel.setId(id);
-            frame.setTitle("Game: Player " + id);
+            response = input.nextLine();
+            var number = Integer.parseInt(response) + 1;
+            response = input.nextLine();
+            frame.setTitle("Game: Player " + number);
+            var numOfPlayers = Integer.parseInt(response);
+            panel.setPlayers(numOfPlayers);
             panel.repaint();
 
             while (input.hasNextLine()){
@@ -78,15 +83,14 @@ public class TrylmaClient {
                     panel.unmark();
                 }
                 else if (response.startsWith("VALID_MOVE")) {
-                    panel.unmark();
                     panel.makeMove(currentCircle[0], currentCircle[1]);
+                    panel.unmark();
                     label.setText("Good move, now wait!");
                 }
                 else if (response.startsWith("OTHER_MOVE")){
                     String str = response.substring(11);
                     String[] arr = str.split("\\s+");
                     panel.makeMove(Integer.parseInt(arr[0]), Integer.parseInt(arr[1]));
-                    label.setText("Opponent moved, your turn!");
                 }
                 else if (response.startsWith("POSSIBILITIES")){
                     String str = response.substring(14);
@@ -100,6 +104,15 @@ public class TrylmaClient {
                 }
                 else if (response.startsWith("MESSAGE")) {
                     label.setText(response.substring(8));
+                }
+                else if (response.startsWith("WIN")){
+                    JOptionPane.showMessageDialog(frame, "You won!");
+                }
+                else if (response.startsWith("DEFEAT")){
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog(frame, "Do you want to continue the game?", "You lost!", dialogButton);
+                    if(dialogResult != 0)
+                        break;
                 }
                 else if (response.startsWith("OTHER_PLAYER_LEFT")) {
                     JOptionPane.showMessageDialog(frame, "Other player left");

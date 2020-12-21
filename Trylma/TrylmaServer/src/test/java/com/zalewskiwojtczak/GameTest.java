@@ -1,4 +1,4 @@
-package com.zalewskiwojtczak;
+/*package com.zalewskiwojtczak;
 
 import org.junit.Test;
 
@@ -37,4 +37,4 @@ public class GameTest {
         assertEquals(counter2, expectedCounter2);
         assertEquals(counter3, expectedCounter3);
     }
-}
+}*/
