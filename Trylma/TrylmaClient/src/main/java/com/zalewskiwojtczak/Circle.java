@@ -4,7 +4,7 @@ import java.awt.*;
 /** Klasa reprezentująca pojedynczny pionek na planszy (nazwa pochodzi od kształtu pionka)
  */
 public class Circle {
-	/** Identyfikator określający którego gracza jest dany pionek */
+    /** Identyfikator określający którego gracza jest dany pionek */
     private final int id;
     /** Współrzędne x pionka */
     private final int x;
@@ -27,7 +27,7 @@ public class Circle {
         this.id = id;
         this.color = getColor(id);
     }
-    /** Funkcja ustawiająca kolor 
+    /** Funkcja ustawiająca kolor
      * @param color kolor pionka
      */
     public void setColor(Color color){
@@ -93,7 +93,7 @@ public class Circle {
      */
     public boolean contains(int pointX, int pointY)
     {
-    	// ||x - y|| = sqrt[(x1 - y1)^2 + (x2 - y2)^2 + ...]
+        // ||x - y|| = sqrt[(x1 - y1)^2 + (x2 - y2)^2 + ...]
         int radius = diameter/2;
         int distance = (int) Math.sqrt((Math.pow(pointX - (x + radius), 2)) + (Math.pow(pointY - (y + radius), 2)));
 

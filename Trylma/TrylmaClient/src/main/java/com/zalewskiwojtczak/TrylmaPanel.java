@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 /** Klasa odpowiedzialna za przedstawianie planszy */
 public class TrylmaPanel extends JPanel {
-	/** Zmienna przechowująca identyfikator gracza, do którego należy dana plansza */
+    /** Zmienna przechowująca identyfikator gracza, do którego należy dana plansza */
     private int id;
     /** Tablica dwuwymiarowa przechowująca ułożenie planszy */
     private final Circle[][] circles = new Circle[17][13];
@@ -21,7 +21,7 @@ public class TrylmaPanel extends JPanel {
     };
     /** Konstruktor klasy TrylmaPanel */
     public TrylmaPanel(){
-    	//Początkowe ustawienie parametrów okna
+        //Początkowe ustawienie parametrów okna
         setBackground(Color.DARK_GRAY);
         setLayout(new BorderLayout());
 
@@ -29,8 +29,8 @@ public class TrylmaPanel extends JPanel {
         /*pętle wypełniająca tablice circles nowymi pionkami na podstawie informacji z zmiennej board */
         for (int row = 0; row < circles.length; row++){
             for (int column = 0; column < circles[row].length; column++){
-            	//w zależności od aktualnego wiersza, dla wierszy nieparzystych dokonujemy lekkiego wcięcia
-            	// w celu lepszego graficznego przedstawienia planszy
+                //w zależności od aktualnego wiersza, dla wierszy nieparzystych dokonujemy lekkiego wcięcia
+                // w celu lepszego graficznego przedstawienia planszy
                 if (row % 2 == 0)
                     circles[row][column] = new Circle(column* diameter, row* diameter, diameter, board[row][column]);
                 else
@@ -40,7 +40,7 @@ public class TrylmaPanel extends JPanel {
         repaint();
     }
     /** Funkcja oznaczająca piony danego gracza poprzez zwiększenie jasności koloru
-    /dodano ze względów estetycznych, dla dodatkowego odróżnienia pionów gracza od przeciwnika */
+     /dodano ze względów estetycznych, dla dodatkowego odróżnienia pionów gracza od przeciwnika */
     public void setId(int id){
         this.id = id;
         for (Circle[] c: circles){
@@ -83,7 +83,7 @@ public class TrylmaPanel extends JPanel {
      * @param column kolumna, w ktorej znajduje sie dany pionek
      * @param tick zmienna boolowska tworzaca mechanizm podswetlania pionka tylko dla gracza
      * ktory aktualnie wykonuje ruch
-    */
+     */
     public void mark(int row, int column, boolean tick){
         currentCircle = circles[row][column];
         currentColor = currentCircle.getColor();
@@ -91,7 +91,7 @@ public class TrylmaPanel extends JPanel {
             currentCircle.setColor(Color.CYAN);
         }
     }
-    /** Oznaczenie pól na które może skoczyć oznaczony wcześniej pionek 
+    /** Oznaczenie pól na które może skoczyć oznaczony wcześniej pionek
      * @param row wiersz, w którym znajduje się dany pionek
      * @param column kolumna, w której znajduje się dany pionek
      */
@@ -99,7 +99,7 @@ public class TrylmaPanel extends JPanel {
         circles[row][column].setColor(Color.MAGENTA);
     }
     /** Jeśli gracz zmienił decyzje i kliknął inny pionek ta funkcja
-    usuwa wszystkie wcześniej stworzone oznaczenia */
+     usuwa wszystkie wcześniej stworzone oznaczenia */
     public void unmark(){
         for (Circle[] c: circles){
             for (Circle c1: c){

@@ -10,10 +10,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 /** Klasa klienta aplikacji Trylma
- * 
+ *
  */
 public class TrylmaClient {
-	/** Obiekt klasy JFrame odpowiedzialny za utworzenie ramki aplikacji okinkowej */
+    /** Obiekt klasy JFrame odpowiedzialny za utworzenie ramki aplikacji okinkowej */
     private final JFrame frame = new JFrame("Trylma");
     /** Komponent odpowiedzialny za ustawianie tekstu */
     private final JLabel label = new JLabel("...");
@@ -33,7 +33,7 @@ public class TrylmaClient {
      * @param Socket socket gniazdo, do którego podłącza się klient w celu rozegrania rozgrywki
      */
     public TrylmaClient(Socket socket) throws Exception {
-    	//inicjalizacja zmiennych
+        //inicjalizacja zmiennych
         this.socket = socket;
         input = new Scanner(socket.getInputStream());
         output = new PrintWriter(socket.getOutputStream(), true);
@@ -55,14 +55,14 @@ public class TrylmaClient {
                 }
             }
         });
-      //Osobny Listener nasłuchujący, czy użytkownik chce pominąc turę
+        //Osobny Listener nasłuchujący, czy użytkownik chce pominąc turę
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 output.println("SKIP");
             }
         });
-      //dodanie komponentów do obiektu typu JFrame
+        //dodanie komponentów do obiektu typu JFrame
         frame.getContentPane().add(label, BorderLayout.NORTH);
         frame.getContentPane().add(panel, BorderLayout.CENTER);
         frame.getContentPane().add(button, BorderLayout.SOUTH);
@@ -74,13 +74,13 @@ public class TrylmaClient {
     /** Funkcja odpowiedzialna za rozgrywkę użytkownika */
     public void play() throws Exception {
         try{
-        	//Cała filozofia rozgrywki polega na analizowaniu informacji, które
-        	//gracz otrzymuje od serwera w formie napisu (zapisywane są do zmiennej response).
-        	// W zależności od odpowiedzi serwera uruchamiane są różne funkcje z klasy TrylmaBoard,
-        	// która zarządza planszą
+            //Cała filozofia rozgrywki polega na analizowaniu informacji, które
+            //gracz otrzymuje od serwera w formie napisu (zapisywane są do zmiennej response).
+            // W zależności od odpowiedzi serwera uruchamiane są różne funkcje z klasy TrylmaBoard,
+            // która zarządza planszą
             var response = input.nextLine();
             var id = Integer.parseInt(response);
-            //utożsamienie planszy z graczem- każdy gracz musi mieć swoją planszę na której może 
+            //utożsamienie planszy z graczem- każdy gracz musi mieć swoją planszę na której może
             //wykonywac operacje
             panel.setId(id);
             response = input.nextLine();
@@ -153,7 +153,7 @@ public class TrylmaClient {
                     break;
                 }
                 // do testów
-                else if (response.startsWith("SIM_CLICK")){ 
+                else if (response.startsWith("SIM_CLICK")){
                     String str = response.substring(10);
                     String[] arr = str.split("\\s+");
                     currentCircle[0] = Integer.parseInt(arr[0]);
@@ -169,11 +169,11 @@ public class TrylmaClient {
         }
     }
     /** Funkcja main klasy TrylmaClient
-     * @param args 
+     * @param args
      */
     public static void main(String[] args){
         try {
-        	//inicjalizacja gniazda dla portu 59090
+            //inicjalizacja gniazda dla portu 59090
             Socket socket = new Socket("localhost", 59090);
             //utworzenie nowego klienta
             TrylmaClient client = new TrylmaClient(socket);

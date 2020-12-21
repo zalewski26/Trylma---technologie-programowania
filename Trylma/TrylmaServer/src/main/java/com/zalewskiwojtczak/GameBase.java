@@ -5,7 +5,7 @@ import java.util.Random;
 import static java.lang.Math.abs;
 /** Klasa odpowiedzialna za implementacje mechaniki gry, a konkretniej ruchów */
 public class GameBase {
-	/** dwuwymiarowa tablica przechowujaca informacje o ułożeniu planszy */
+    /** dwuwymiarowa tablica przechowujaca informacje o ułożeniu planszy */
     public final int[][] board = {{8, 8, 8, 8, 8, 8, 6, 8, 8, 8, 8, 8, 8}, {8, 8, 8, 8, 8, 6, 6, 8, 8, 8, 8, 8, 8}, {8, 8, 8, 8, 8, 6, 6, 6, 8, 8, 8, 8, 8},
             {8, 8, 8, 8, 6, 6, 6, 6, 8, 8, 8, 8, 8}, {5, 5, 5, 5, 0, 0, 0, 0, 0, 4, 4, 4, 4}, {5, 5, 5, 0, 0, 0, 0, 0, 0, 4, 4, 4, 8}, {8, 5, 5, 0, 0, 0, 0, 0, 0, 0, 4, 4, 8},
             {8, 5, 0, 0, 0, 0, 0, 0, 0, 0, 4, 8, 8}, {8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8}, {8, 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 8, 8}, {8, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2, 2, 8},
@@ -20,7 +20,7 @@ public class GameBase {
     protected TrylmaGame.playerHandler current;
     /** tablica dwuwymiarowa przechowująca pola na które dany pion może wykonać ruch*/
     protected int[][] available;
-    
+
     protected TrylmaGame.playerHandler[] players;
     /** Zmienna reprezentujaca informacje o liczbie graczy*/
     protected int NUMOF;
@@ -36,28 +36,28 @@ public class GameBase {
      */
     public synchronized void action(int row, int column, TrylmaGame.playerHandler player) {
         if (player != current) {
-        	// Zabraniamy graczowi wykonwania ruchu, gdy nie jest jego kolej...
+            // Zabraniamy graczowi wykonwania ruchu, gdy nie jest jego kolej...
             throw new IllegalStateException("Not your turn!");
         }
         for (TrylmaGame.playerHandler opponent : players) {
             if (opponent == null)
-            	// ... lub gdy brakuje przeciwników
+                // ... lub gdy brakuje przeciwników
                 throw new IllegalStateException("You have no opponent yet!");
         }
-      //Oznaczenie pionka
+        //Oznaczenie pionka
         if (!current.marked) {
-        	// Zabraniamy graczowi wykonywania ruchu nie swoimi pionami
+            // Zabraniamy graczowi wykonywania ruchu nie swoimi pionami
             if (board[row][column] != current.id)
                 throw new IllegalStateException("This is not your pawn!");
             current.prev[0] = row;
             current.prev[1] = column;
             available = getAvailable(current.prev[0], current.prev[1]);
         } else {
-        	//Zabraniamy poruszania się na pola już zajęte przez innych graczy
+            //Zabraniamy poruszania się na pola już zajęte przez innych graczy
             if (board[row][column] != 0) {
                 throw new IllegalStateException("Place is already occupied!");
             }
-            //Funkcja wykonująca ruch 
+            //Funkcja wykonująca ruch
             for (int[] av : available) {
                 if (av[0] == row && av[1] == column) {
                     board[current.prev[0]][current.prev[1]] = 0;
@@ -140,11 +140,11 @@ public class GameBase {
         }
         return result;
     }
-    /** Funkcja sprawdzająca warunki zwycięstwa 
+    /** Funkcja sprawdzająca warunki zwycięstwa
      * @param id id gracza dla którego sprawdzamy warunki zwycięstwa
      */
     public boolean checkWin(int id) {
-    	//sprawdzanie odbywa się poprzez sprawdzenie wartości wszystkich pól
+        //sprawdzanie odbywa się poprzez sprawdzenie wartości wszystkich pól
         boolean full = false;
         switch (id) {
             case 1:

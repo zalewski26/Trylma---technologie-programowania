@@ -10,9 +10,9 @@ import static java.lang.Math.abs;
  * ich przekazywaniem między graczami
  */
 public class TrylmaGame extends GameBase {
-	/** Konstruktor klasy TrylmaGame
-	 * @param NUMOF liczba graczy uczestniczaca w rozgrywce
-	 */
+    /** Konstruktor klasy TrylmaGame
+     * @param NUMOF liczba graczy uczestniczaca w rozgrywce
+     */
     public TrylmaGame(int NUMOF){
         this.NUMOF = NUMOF;
         players = new TrylmaGame.playerHandler[NUMOF];
@@ -53,9 +53,9 @@ public class TrylmaGame extends GameBase {
     }
 
     /**Klasa wewnętrzna zajmująca się interakcją między graczami (dokładniej między jednym graczem
-	 następnie serwerem, który przekazuje informacje do reszty graczy) */
+     następnie serwerem, który przekazuje informacje do reszty graczy) */
     class playerHandler implements Runnable {
-    	/** Zmienna przechowujaca informacje o poprzednio ruszonym pionku */
+        /** Zmienna przechowujaca informacje o poprzednio ruszonym pionku */
         protected final int[] prev = new int[2];
         /** Zmienna przechowujaca informacje o poprzednio oznaczonym pionku */
         private final int[] prev_marked = new int[2];
@@ -95,7 +95,7 @@ public class TrylmaGame extends GameBase {
             } catch (Exception ex){
                 ex.printStackTrace();
             } finally {
-            	//Jeśli gracz wyszedł to zakończ grę
+                //Jeśli gracz wyszedł to zakończ grę
                 for (playerHandler opponent: players) {
                     if (opponent != null && opponent.output != null)
                         opponent.output.println("OTHER_PLAYER_LEFT");
@@ -132,8 +132,8 @@ public class TrylmaGame extends GameBase {
         }
         /** Funkcja odpowiedzialna za przetwarzanie komend*/
         private void processCommands(){
-        	//Serwer po otrzymaniu informacji od gracza aktualizuje wydarzenia i przesyła odpowiednie
-        	//informacje do przeciwników gracza, który aktualnie wykonuje ruch
+            //Serwer po otrzymaniu informacji od gracza aktualizuje wydarzenia i przesyła odpowiednie
+            //informacje do przeciwników gracza, który aktualnie wykonuje ruch
             while (input.hasNextLine()){
                 var command = input.nextLine();
                 //Opuszczenie gry przez gracza
@@ -156,8 +156,8 @@ public class TrylmaGame extends GameBase {
                     current = nextPlayer();
                 }
                 else if (command.startsWith("CLICK")){
-                	//implementacja mechanizmu przechwytywania informacji od klienta
-                	//dotyczących ruchy w aktualnej turze
+                    //implementacja mechanizmu przechwytywania informacji od klienta
+                    //dotyczących ruchy w aktualnej turze
                     String str = command.substring(6);
                     String[] arr = str.split("\\s+");
                     int row = Integer.parseInt(arr[0]);
